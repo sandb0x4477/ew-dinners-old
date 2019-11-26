@@ -1,15 +1,16 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
+import { AuthGuard } from './guards/auth.guard';
+import { DinnerResolver } from './resolvers/dinner.resolver';
+
 import { LoginComponent } from './login/login.component';
 import { AddDinnerComponent } from './add-dinner/add-dinner.component';
 import { ListDinnerComponent } from './list-dinner/list-dinner.component';
-import { AuthGuard } from './guards/auth.guard';
 import { EditDinnerComponent } from './edit-dinner/edit-dinner.component';
-import { DinnerResolver } from './resolvers/dinner.resolver';
 
 const routes: Routes = [
-  { path: '', component: ListDinnerComponent, canActivate: [AuthGuard] },
+  { path: '', component: ListDinnerComponent },
   { path: 'login', component: LoginComponent },
   { path: 'add', component: AddDinnerComponent, canActivate: [AuthGuard] },
   {

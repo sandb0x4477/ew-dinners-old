@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class StoreService {
-  private isEdit: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+  private isEdit: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor() { }
 

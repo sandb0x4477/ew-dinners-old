@@ -30,10 +30,9 @@ export class ListDinnerComponent implements OnInit {
     this.firebase
       .removeDinnerRecord(this.selectedDinner)
       .then(() => {
-        console.log('Removed');
         this.notify.notifySuccess();
       })
-      .catch(err => console.log('List Dinners Service => ', err.message));
+      .catch(err => console.log(err.message));
   }
 
   onShowModal(data: Dinner) {

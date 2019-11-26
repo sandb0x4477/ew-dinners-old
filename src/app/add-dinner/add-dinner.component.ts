@@ -3,11 +3,10 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgxCroppieComponent } from 'ngx-croppie';
 import { CroppieOptions, ResultOptions } from 'croppie';
+import { finalize } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 import { FirebaseService } from '../services/firebase.service';
-import { finalize, tap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
-import { AngularFireStorage } from '@angular/fire/storage';
 import { NotifyService } from '../services/notify.service';
 
 @Component({
@@ -74,12 +73,10 @@ export class AddDinnerComponent implements OnInit {
   }
 
   onSubmit() {
-    // console.log('DinnerForm =>', this.dinnerForm.value);
     const filePath = `/${new Date().getTime()}_${this.imageName}`;
     this.firebase.uploadImage(this.editedImage, filePath).pipe(
       finalize( async () => {
         this.downloadURL = await this.firebase.fileRef.getDownloadURL().toPromise();
-        console.log('this.downloadURL => ', this.downloadURL);
         this.addNewRecord(this.downloadURL, filePath);
       })
     ).subscribe();

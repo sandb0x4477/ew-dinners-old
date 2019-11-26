@@ -67,7 +67,6 @@ export class EditDinnerComponent implements OnInit {
   }
 
   onSubmit() {
-    // console.log('DinnerForm =>', this.dinnerForm.value);
     if (this.isNewImage <= 2) {
       const updatedRecord = {
         title: this.dinnerForm.value.title,
@@ -81,7 +80,6 @@ export class EditDinnerComponent implements OnInit {
       this.firebase
         .updateRecord(updatedRecord)
         .then(() => {
-          console.log('Record Updated');
           this.router.navigate(['/']);
           this.notify.notifySuccess();
         })
@@ -94,20 +92,11 @@ export class EditDinnerComponent implements OnInit {
         .pipe(
           finalize(async () => {
             const downloadURL = await this.firebase.fileRef.getDownloadURL().toPromise();
-            console.log('DownloadURL => ', downloadURL);
             this.updateRecordWithImage(downloadURL, filePath, oldImgPath);
-            // this.addNewRecord(this.downloadURL, filePath);
           })
         )
         .subscribe();
     }
-
-    // ! Delete Image
-    // this.firebase
-    //   .deleteImage(this.dinner.imgPath)
-    //   .then(() => console.log('Image Deleted'))
-    //   .catch(err => console.log(err));
-    // this.db.uploadImage(this.editedImage, this.imageName, this.dinnerForm.value);
   }
 
   updateRecordWithImage(downloadURL: string, filePath: string, oldFilePath: string) {
@@ -126,11 +115,8 @@ export class EditDinnerComponent implements OnInit {
         console.log('Record Updated with Image');
         this.router.navigate(['/']);
         this.notify.notifySuccess();
-        // ! Delete Image
-        this.firebase
-          .deleteImage(oldFilePath)
-          .then(() => console.log('Image Deleted'))
-          .catch(err => console.log(err));
+
+        this.firebase.deleteImage(oldFilePath).catch(err => console.log(err));
       })
       .catch(err => console.log(err));
   }
