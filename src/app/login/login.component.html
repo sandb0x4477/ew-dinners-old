@@ -1,0 +1,74 @@
+<section class="hero is-success is-fullheight-with-navbar">
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <div class="column is-6 is-offset-3">
+        <p class="subtitle has-text-black">Elaine & Wojtek Dinners</p>
+        <div class="box">
+          <figure class="avatar">
+            <img src="assets/logo.jpg" alt="logo" />
+          </figure>
+          <!-- ------------------------------------------------------------- -->
+          <!-- !FORM START -->
+          <!-- ------------------------------------------------------------- -->
+          <form [formGroup]="loginForm">
+            <div class="field">
+              <div class="control has-icons-left">
+                <input
+                  class="input is-medium"
+                  type="email"
+                  placeholder="Your Email"
+                  autofocus=""
+                  formControlName="email"
+                />
+                <span class="icon is-small is-left">
+                  <i class="fas fa-envelope"></i>
+                </span>
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="control has-icons-left">
+                <input
+                  class="input is-medium"
+                  type="password"
+                  placeholder="Your Password"
+                  formControlName="password"
+                />
+                <span class="icon is-small is-left">
+                    <i class="fas fa-lock"></i>
+                  </span>
+              </div>
+            </div>
+
+            <button
+              class="button is-block is-info is-medium is-fullwidth"
+              type="submit"
+              (click)="onLoginWithEmail()"
+            >
+              <i class="fas fa-sign-in-alt" aria-hidden="true"></i>&nbsp;&nbsp;Submit
+            </button>
+
+<!--             <button
+              class="button is-block is-link is-medium is-fullwidth"
+              (click)="onLoginWithGoogle()"
+              style="margin-top: 10px;"
+            >
+              <i class="fab fa-google-plus-g" aria-hidden="true"></i>&nbsp;&nbsp;Login
+            </button> -->
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-container *ngIf="authService.debug">
+    <ng-container *ngIf="authService.debug && (authService.user$ | async) as user">
+      <button
+        class="button is-block is-primary is-large is-fullwidth"
+        (click)="authService.signOut()"
+      >
+        Logout {{ user.email }}
+      </button>
+    </ng-container>
+  </ng-container>
+</section>

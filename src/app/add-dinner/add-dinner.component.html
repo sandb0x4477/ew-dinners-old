@@ -1,0 +1,125 @@
+<section class="hero is-fullheight-with-navbar">
+  <div class="hero-body">
+    <div class="container">
+      <div class="column is-10 is-offset-1">
+        <div class="box">
+          <!-- ------------------------------------------------------------- -->
+          <!-- ! CROPPER -->
+          <!-- ------------------------------------------------------------- -->
+          <div>
+            <ngx-croppie
+              *ngIf="croppieImage"
+              [outputFormatOptions]="outputFormatOptions"
+              #ngxCroppie
+              [croppieOptions]="croppieOptions"
+              [imageUrl]="croppieImage"
+              [defaultZoom]="defaultZoom"
+              (result)="newImageResultFromCroppie($event)"
+            ></ngx-croppie>
+          </div>
+
+          <div class="file is-centered">
+            <div class="file is-small">
+              <label class="file-label">
+                <input
+                  #imageUpload
+                  class="file-input"
+                  type="file"
+                  name="inputFile"
+                  id="fileupload"
+                  accept="image/gif, image/jpeg, image/png"
+                  (change)="imageUploadEvent($event)"
+                />
+                <span class="file-cta">
+                  <span class="file-icon">
+                    <i class="fas fa-upload"></i>
+                  </span>
+                  <span class="file-label">
+                    Choose a file…
+                  </span>
+                </span>
+              </label>
+            </div>
+          </div>
+          <!-- ------------------------------------------------------------- -->
+          <!-- ! CROPPER END -->
+          <!-- ------------------------------------------------------------- -->
+
+          <form [formGroup]="dinnerForm" (ngSubmit)="onSubmit()">
+            <!-- --------------------------------------------------------------- -->
+            <!-- ? TITLE -->
+            <!-- --------------------------------------------------------------- -->
+            <div class="field">
+              <label class="label">Title</label>
+              <div class="control">
+                <input
+                  class="input"
+                  type="text"
+                  placeholder="Name of the dish"
+                  name="title"
+                  formControlName="title"
+                />
+              </div>
+              <ng-container
+                *ngIf="
+                  dinnerForm.get('title').touched &&
+                  dinnerForm.get('title').hasError('required')
+                "
+              >
+                <p class="help is-danger">This field is requaried</p>
+              </ng-container>
+            </div>
+            <!-- --------------------------------------------------------------------- -->
+            <!-- ? URL -->
+            <!-- --------------------------------------------------------------------- -->
+<!--             <div class="field">
+              <label class="label">Url</label>
+              <div class="control">
+                <input
+                  class="input"
+                  type="text"
+                  placeholder="Link to recipe"
+                  formControlName="recipeUrl"
+                  name="recipeUrl"
+                />
+              </div>
+            </div> -->
+            <!-- --------------------------------------------------------------------- -->
+            <!-- ? INFO -->
+            <!-- --------------------------------------------------------------------- -->
+            <div class="field">
+              <label class="label">URL/Info</label>
+              <div class="control">
+                <input
+                  class="input"
+                  placeholder="Where to find the recipe"
+                  type="text"
+                  formControlName="info"
+                  name="info"
+                />
+              </div>
+            </div>
+
+            <div class="buttons is-centered">
+              <button class="button is-link is-light" [routerLink]="['/']" type="button">
+                Cancel
+              </button>
+
+              <button class="button is-link" type="submit" [disabled]="!dinnerForm.valid">
+                Submit
+              </button>
+            </div>
+
+            <progress
+              class="progress is-primary"
+              [value]="firebase.percentage | async"
+              max="100"
+            ></progress>
+
+            <!-- {{ firebase.percentage | async }} -->
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
