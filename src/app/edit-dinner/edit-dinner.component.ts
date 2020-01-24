@@ -123,7 +123,6 @@ export class EditDinnerComponent implements OnInit {
 
   newImageResultFromCroppie(img: Blob) {
     this.isNewImage++;
-    console.log('this.isNewImage => ', this.isNewImage);
     this.editedImage = img;
   }
 
