@@ -52,6 +52,7 @@ export class AddDinnerComponent implements OnInit {
     return this.fb.group({
       title: ['', Validators.compose([Validators.required, Validators.minLength(4)])],
       info: [''],
+      vegetarian: [false],
     });
   }
 

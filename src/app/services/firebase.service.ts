@@ -1,8 +1,15 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
-import { AngularFireStorage, AngularFireUploadTask, AngularFireStorageReference } from '@angular/fire/storage';
-import { Observable, combineLatest, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {
+  AngularFireDatabase,
+  AngularFireList,
+} from '@angular/fire/database';
+import {
+  AngularFireStorage,
+  AngularFireUploadTask,
+  AngularFireStorageReference,
+} from '@angular/fire/storage';
+import { Observable, combineLatest, of, BehaviorSubject } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
 
 import { Dinner } from '../models/dinner.model';
 
@@ -10,6 +17,9 @@ import { Dinner } from '../models/dinner.model';
   providedIn: 'root',
 })
 export class FirebaseService {
+  calendarItems$: Observable<any>;
+  selectedMonth$: BehaviorSubject<string | null> = new BehaviorSubject(null);
+
   dinners$: Observable<Dinner[]>;
   order$: Observable<string[]>;
   sortedDinners$: Observable<Dinner[]>;
@@ -24,7 +34,21 @@ export class FirebaseService {
   fileRef: AngularFireStorageReference;
 
   constructor(private db: AngularFireDatabase, private storage: AngularFireStorage) {
-    this.dinnersRef = db.list('dinners');
+    this.calendarItems$ = this.selectedMonth$.pipe(
+      switchMap(month =>
+        db
+          .list<any>(`/calendar/${month}`)
+          .snapshotChanges()
+          .pipe(
+            map(changes =>
+              changes.map(c => ({ key: c.payload.key, ...c.payload.val() })),
+            ),
+            tap(res => console.log(res)),
+          ),
+      ),
+    );
+
+    this.dinnersRef = db.list('dinners', ref => ref.orderByChild('title'));
     this.orderRef = db.list('order');
 
     this.dinners$ = this.dinnersRef.valueChanges();
@@ -34,6 +58,10 @@ export class FirebaseService {
       this.order = order;
       this.sortedDinners$ = this.sortDinners(order, dinners);
     });
+  }
+
+  selectMonth(month: string | null) {
+    this.selectedMonth$.next(month);
   }
 
   getDinner(id: string): Observable<Dinner> {
@@ -53,7 +81,10 @@ export class FirebaseService {
     }
   }
 
-  uploadImage(image: Blob, filePath: string): Observable<firebase.storage.UploadTaskSnapshot> {
+  uploadImage(
+    image: Blob,
+    filePath: string,
+  ): Observable<firebase.storage.UploadTaskSnapshot> {
     this.fileRef = this.storage.ref(filePath);
     const task: AngularFireUploadTask = this.storage.upload(filePath, image);
 
@@ -76,6 +107,7 @@ export class FirebaseService {
     newEntry[`/dinners/${keyRef}`] = {
       title: formValues.title,
       info: formValues.info,
+      vegetarian: formValues.vegetarian,
       imgUrl,
       imgPath,
       id: keyRef,

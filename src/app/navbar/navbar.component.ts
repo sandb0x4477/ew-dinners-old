@@ -9,7 +9,7 @@ import { StoreService } from '../services/store.service';
     .navbar-item img {
         max-height: 42px !important;
         border-radius: 50%;
-        margin-right: 10px;
+        margin-right: 10px;-+
     }
     .ew-text {
         margin-left: 30px;

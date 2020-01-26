@@ -5,4 +5,5 @@ export interface Dinner {
   createdAt?: string;
   imgUrl: string;
   imgPath: string;
+  vegetarian?: boolean;
 }

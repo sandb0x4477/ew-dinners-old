@@ -63,14 +63,18 @@ export class EditDinnerComponent implements OnInit {
         Validators.compose([Validators.required, Validators.minLength(4)]),
       ],
       info: [this.dinner.info || ''],
+      vegetarian: [this.dinner.vegetarian || false]
     });
   }
 
   onSubmit() {
+    console.log(this.dinnerForm.value);
+
     if (this.isNewImage <= 2) {
       const updatedRecord = {
         title: this.dinnerForm.value.title,
         info: this.dinnerForm.value.info,
+        vegetarian: this.dinnerForm.value.vegetarian,
         imgUrl: this.dinner.imgUrl,
         imgPath: this.dinner.imgPath,
         id: this.dinner.id,
@@ -103,6 +107,7 @@ export class EditDinnerComponent implements OnInit {
     const updatedRecord = {
       title: this.dinnerForm.value.title,
       info: this.dinnerForm.value.info,
+      vegetarian: this.dinnerForm.value.vegetarian,
       imgUrl: downloadURL,
       imgPath: filePath,
       id: this.dinner.id,

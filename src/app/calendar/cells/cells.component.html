@@ -1,0 +1,21 @@
+<div class="cells-container">
+  <div
+    class="cell"
+    (click)="onCellClick(cell)"
+    [class.cellDisabled]="!cell.isSameMonth"
+    [class.selected]="cell.isToday"
+    *ngFor="let cell of cells"
+  >
+    <div class="cell-thumb">
+      <!-- <img src="assets/temp.jpg" alt="" /> -->
+    </div>
+    <div
+      class="cellNumber"
+      [class.cellNumberDisabled]="!cell.isSameMonth"
+      [class.isSunday]="cell.isSunday"
+    >
+      {{ cell.cellDay }}
+    </div>
+  </div>
+</div>
+<!-- [style.color]="cell.isSunday ? 'red' : ''" -->

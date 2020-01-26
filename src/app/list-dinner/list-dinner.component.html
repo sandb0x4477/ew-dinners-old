@@ -1,8 +1,8 @@
 <div class="container has-text-centered">
   <div class="column is-6 is-offset-3">
-    <ng-container *ngIf="firebase.sortedDinners$">
-      <ng-container *ngFor="let dinner of firebase.sortedDinners$ | async">
-        <div class="box">
+    <ng-container *ngIf="(firebase.sortedDinners$ | async) as dinners">
+      <ng-container *ngFor="let dinner of dinners">
+        <div class="box" [class.vegetarian]="dinner.vegetarian">
           <div class="is-centered">
             <figure class="image is-4by3">
               <img

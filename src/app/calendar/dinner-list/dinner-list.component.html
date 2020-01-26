@@ -1,0 +1,36 @@
+<div class="modal" [ngClass]="{ 'is-active': isModalActive }">
+  <div class="modal-background" (click)="onCancelModal()"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Choose Dinner</p>
+      <button class="delete" aria-label="close" (click)="onCancelModal()"></button>
+    </header>
+    <section
+      class="modal-card-body"
+      *ngIf="fb.dinners$ | async as dinners; else loading"
+    >
+      <ng-container *ngFor="let dinner of dinners">
+        <div class="level" (click)="onSelectDinner(dinner)">
+          <div class="level-left">
+            <div class="level-item">
+              <img class="dinner-list-img" src="{{dinner.imgUrl}}" alt="">
+            </div>
+          </div>
+          <div class="level-item has-text-left">
+            {{ dinner.title }}
+          </div>
+        </div>
+      </ng-container>
+
+    </section>
+    <footer class="modal-card-foot">
+      <button class="button is-fullwidth" (click)="onCancelModal()">Cancel</button>
+    </footer>
+  </div>
+</div>
+
+<ng-template #loading>
+  <section class="modal-card-body">
+    Loading.....
+  </section>
+</ng-template>

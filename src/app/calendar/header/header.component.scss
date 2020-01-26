@@ -1,0 +1,51 @@
+// .icon {
+//   font-family: 'Material Icons', serif;
+//   font-style: normal;
+//   // display: inline-block;
+//   // vertical-align: middle;
+//   line-height: 1;
+//   text-transform: none;
+//   letter-spacing: normal;
+//   word-wrap: normal;
+//   white-space: nowrap;
+//   direction: ltr;
+
+//   -webkit-font-smoothing: antialiased;
+//   text-rendering: optimizeLegibility;
+//   -moz-osx-font-smoothing: grayscale;
+//   font-feature-settings: 'liga';
+// }
+
+.header {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 700;
+  // font-size: 115%;
+  padding: 0.5em 0em;
+  border-bottom: 1px solid var(--border-color);
+
+  .icon {
+    cursor: pointer;
+    transition: .15s ease-out;
+
+    &:hover {
+      transform: scale(1.55);
+      transition: .25s ease-out;
+      color: var(--main-color);
+    }
+
+    &:first-of-type {
+      justify-self: start;
+      margin-left: 0.5em;
+    }
+
+    &:last-of-type {
+      justify-self: end;
+      margin-right: 0.5em;
+    }
+  }
+}
+
+

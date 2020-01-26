@@ -1,0 +1,27 @@
+<!-- <div class="calendar-grid"> -->
+
+  <!-- ----------------------------------------------------------------------- -->
+  <!-- ? DINNER LIST -->
+  <!-- ----------------------------------------------------------------------- -->
+  <!-- <div class="dinner-list">Hello</div> -->
+
+  <!-- --------------------------------------------------------------------- -->
+  <!-- ! CALENDAR -->
+  <!-- --------------------------------------------------------------------- -->
+  <div class="calendar">
+    <app-header [currentMonth]="currentMonth" (command)="onCommand($event)"></app-header>
+    <app-days [currentMonth]="currentMonth" [weekStartsOn]="weekStartsOn"></app-days>
+    <app-cells
+      [currentMonth]="currentMonth"
+      [selectedDate]="selectedDate"
+      [weekStartsOn]="weekStartsOn"
+      (command)="onCommand($event)"
+    ></app-cells>
+
+    <div *ngIf="fb.calendarItems$ | async as calendarItems">
+      {{ calendarItems | json }}
+    </div>
+  </div>
+<!-- </div> -->
+
+<app-dinner-list [isModalActive]="isModalActive" (cancelModal)="onCommand($event)"></app-dinner-list>
